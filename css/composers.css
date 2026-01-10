@@ -1,0 +1,143 @@
+.composers-container {
+    display: grid;
+    grid-template-columns:  auto auto;
+}
+.detailsWrapper {
+    margin-left: 20px;
+}
+.composer-container {
+    display: flex;
+    align-items: center;
+    background-color: rgba(0, 0, 0, .05);
+    margin: 10px;
+    padding: 20px;
+}
+.composer-container ul {
+    margin: 10px 0;
+}
+.composer-container a {
+    text-decoration: none;
+    color: #ff0070;
+    font-weight: bold;
+}
+.composer-section {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+
+.composer-info {
+    display: flex;
+    list-style: none;
+}
+.composer-info li {
+    margin-right: 10px;
+    font-weight: 500;
+    color: #555;
+}
+.composer-quick-info {
+    display: flex;
+    list-style: none;
+}
+.composer-quick-info li {
+    margin-right: 10px;
+    font-weight: 600;
+    color: #555;
+}
+.avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
+.back-button {
+    margin: 20px;
+}
+.composer-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin: 20px;
+}
+.composer-section-txt {
+    margin: 50px 0px 10px 10px;
+}
+.works-section {
+    margin: 40px 20px 20px 20px;
+}
+.list-of-works {
+    list-style: none;
+}
+.list-of-works li {
+    font-weight: 600;
+}
+.work-name {
+    padding: 20px;
+    margin: 20px;
+    border-radius: 5px;
+    max-width: 1500px;
+    background-color: rgba(0, 0, 0, .05);
+}
+
+@media (min-width: 501px) and (max-width: 920px) {
+    .composers-container {
+        display: grid;
+        grid-template-columns: auto;
+    }
+    .detailsWrapper
+ {
+        margin: 20px;
+        display: flex;
+        flex-direction: column;
+    }
+    .composer-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+}
+
+@media (max-width: 500px) {
+    .composers-container {
+        display: block;
+    }
+    
+    .detailsWrapper {
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .composer-container {
+        display: flex;
+        flex-direction: column;
+    }
+    .composer-container h2 {
+        text-align: center;
+        margin-top: 10px;
+    }
+    .composer-container a {
+        margin: 20px;
+    }
+    .composer-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .composer-section h1 {
+        text-align: center;
+        margin: 0 20px;
+    }
+    .composer-section ul {
+        display: flex;
+        justify-content: center;
+    }
+    .composer-section li {
+        margin: 10px 5px;
+    }
+    .composer-avatar {
+        width: 105px;
+        height: 105px;
+    }
+    
+}
