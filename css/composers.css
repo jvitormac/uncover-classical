@@ -1,3 +1,17 @@
+.composer-filters ul {
+    display: flex;
+    list-style: none;
+    margin: 30px 10px 10px 10px;
+}
+.composer-filters ul li {
+    padding: 10px 20px;
+    border-radius: 100px;
+}
+.active-filter {
+    background-color: rgba(0, 119, 255, 0.1);
+    color: rgb(0, 119, 255);
+    font-weight: bold;
+}
 .composers-container {
     display: grid;
     grid-template-columns:  auto auto;

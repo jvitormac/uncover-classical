@@ -4,7 +4,7 @@
 
 #### About
 
-A website for browsing and discovering composers and their works
+A website for browsing and discovering composers and their works.
 
 #### Website link
 
@@ -16,4 +16,4 @@ To contribute to this project just submit a pull request.
 
 #### License
 
-This project is licensed with an [MIT](https://choosealicense.com/licenses/mit/) license.
+This project is licensed under an [MIT](https://choosealicense.com/licenses/mit/) license.

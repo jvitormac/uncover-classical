@@ -1,20 +1,29 @@
-window.addEventListener("popstate", () => clearPage());
+window.addEventListener("popstate", () => homeInitialState());
+
+const composerAllFilter = document.querySelector(".all");
 
 const logoContainer = document.querySelector(".logo");
-logoContainer.addEventListener("click", () => clearPage());
+logoContainer.addEventListener("click", () => {
+    homeInitialState();
+});
 
 const composersContainer = document.createElement("div");
 composersContainer.classList.add("composers-container");
 
 const composerSectionTxt = document.getElementById("composerSectionTxt");
+const composerFiltersContainer = document.querySelector(".composer-filters");
 const infoContainer = document.querySelector(".info-container");
 const composerDetailsContainer = document.createElement("div");
 const composerWorksContainer = document.createElement("div");
 const worksList = document.createElement("ul");
 
-async function getComposers() {
+async function getComposers(url) {
     clearPage();
-    const url = "https://api.openopus.org/dyn/composer/list.phtml";
+
+    // Clear the previous list of composers
+    if (composersContainer.childElementCount) {
+        composersContainer.innerHTML = "";
+    }
 
     try {
         const response = await fetch(url);
@@ -63,7 +72,7 @@ async function getComposers() {
             
             const composersWork = document.createElement("a");
             composersWork.textContent = `${composer.name} works`;
-            composersWork.setAttribute("href", `/composer/${composer.id}`) ;
+            composersWork.setAttribute("href", `/composer/${composer.id}`);
             
             composerInfoContainer.append(name, composerInfo, composersWork);
             composerContainer.append(avatar, composerInfoContainer);
@@ -79,6 +88,7 @@ async function getComposers() {
 async function getComposerWorks(composerID) {
     clearPage();
     composerSectionTxt.style.display = "none";
+    composerFiltersContainer.style.display = "none";
 
     const url = `https://api.openopus.org/work/list/composer/${composerID}/genre/all.json`;
 
@@ -101,7 +111,7 @@ async function getComposerWorks(composerID) {
         };
 
         composerDetailsContainer.innerHTML = `
-            <a class="back-button" onclick="clearPage()" href="/">
+            <a class="back-button" onclick="homeInitialState()" href="/">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
                 <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
             </svg>
@@ -149,6 +159,11 @@ function clearPage() {
         composerSectionTxt.style.display = "block";
     }
 
+    // The same rule as before also applies here, but for the composer filters.
+    if (composerFiltersContainer.style.display === "none" && window.location.pathname === "/") {
+        composerFiltersContainer.style.display = "block";
+    }
+
     // If the user has went to any composer page before, then clear the 
     // previous list of works of that composer.
     if (worksList) {
@@ -156,7 +171,50 @@ function clearPage() {
     }
 }
 
-page("/", async () => getComposers());
+function removeFilter() {
+    const composerFilters = document.querySelectorAll(".composer-filter");
+
+    // If any filter button already has an "active-filter" class, then we
+    // remove it.
+    composerFilters.forEach(filter => {
+        if (filter.classList[2]) {
+            filter.classList.remove("active-filter")
+        }
+    })
+}
+
+$(".composer-filter").on("click", (e) => {
+  const filterCategory = e.target.classList[1];
+  const currentFilter = e.currentTarget;
+
+  switch (filterCategory) {
+    case "all":
+      removeFilter();
+      getComposers("https://api.openopus.org/dyn/composer/list.phtml");
+      currentFilter.classList.add("active-filter");
+      break;
+    case "popular":
+      removeFilter();
+      getComposers("https://api.openopus.org/dyn/composer/list/pop.json");
+      currentFilter.classList.add("active-filter");
+      break;
+    case "essential":
+      removeFilter();
+      getComposers("https://api.openopus.org/dyn/composer/list/rec.json");
+      currentFilter.classList.add("active-filter");
+      break;
+    default:
+      break;
+  }
+});
+
+function homeInitialState() {
+    clearPage();
+    removeFilter();
+    composerAllFilter.classList.add("active-filter");
+}
+
+page("/", async () => getComposers("https://api.openopus.org/dyn/composer/list.phtml"));
 page(`/composer/:id`, async (ctx) => getComposerWorks(ctx.params.id));
 
 // The hashbang (#!) it's a necessary evil we need in order for users to be
